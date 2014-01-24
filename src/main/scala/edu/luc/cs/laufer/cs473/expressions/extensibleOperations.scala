@@ -4,28 +4,28 @@ class ExtensibleOperations {
 
   def evaluate(e: Expr): Int = e match {
     case Constant(c) => c
-    case Plus(l, r) => evaluate(l) + evaluate(r)
+    case Plus(l, r)  => evaluate(l) + evaluate(r)
     case Minus(l, r) => evaluate(l) - evaluate(r)
     case Times(l, r) => evaluate(l) * evaluate(r)
-    case Div(l, r) => evaluate(l) / evaluate(r)
+    case Div(l, r)   => evaluate(l) / evaluate(r)
   }
 
   def size(e: Expr): Int = e match {
-    case Constant(c) => 1
+    case Constant(c)      => 1
     case e: CompositeExpr => 1 + size(e.left) + size(e.right)
   }
 
   def depth(e: Expr): Int = e match {
-    case Constant(c) => 1
+    case Constant(c)      => 1
     case e: CompositeExpr => 1 + scala.math.max(depth(e.left), depth(e.right))
   }
 
   def toFormattedString(prefix: String)(e: Expr): String = e match {
     case Constant(c) => prefix + c.toString
-    case Plus(l, r) => buildExprString(prefix, "Plus", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
+    case Plus(l, r)  => buildExprString(prefix, "Plus", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case Minus(l, r) => buildExprString(prefix, "Minus", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case Times(l, r) => buildExprString(prefix, "Times", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
-    case Div(l, r) => buildExprString(prefix, "Div", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
+    case Div(l, r)   => buildExprString(prefix, "Div", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
   }
 
   def buildExprString(prefix: String, nodeString: String, leftString: String, rightString: String) = {
@@ -45,31 +45,30 @@ class ExtensibleOperations {
   val INDENT = ".."
 }
 
-
 class ExtendedExtensibleOperations extends ExtensibleOperations {
 
   override def evaluate(e: Expr): Int = e match {
     case Mod(l, r) => evaluate(l) % evaluate(r)
     case UMinus(r) => -evaluate(r)
-    case _ => super.evaluate(e)
+    case _         => super.evaluate(e)
   }
 
   override def size(e: Expr): Int = e match {
     case Mod(l, r) => 1 + size(l) + size(r)
     case UMinus(r) => 1 + size(r)
-    case _ => super.size(e)
+    case _         => super.size(e)
   }
 
   override def depth(e: Expr): Int = e match {
     case Mod(l, r) => 1 + scala.math.max(depth(l), depth(r))
     case UMinus(r) => 1 + depth(r)
-    case _ => super.depth(e)
+    case _         => super.depth(e)
   }
 
   override def toFormattedString(prefix: String)(e: Expr): String = e match {
     case Mod(l, r) => buildExprString(prefix, "Mod", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case UMinus(r) => buildUnaryExprString(prefix, "UMinus", toFormattedString(prefix + INDENT)(r))
-    case _ => super.toFormattedString(prefix)(e)
+    case _         => super.toFormattedString(prefix)(e)
   }
 
   def buildUnaryExprString(prefix: String, nodeString: String, exprString: String) = {

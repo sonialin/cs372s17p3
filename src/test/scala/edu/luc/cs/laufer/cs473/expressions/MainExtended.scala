@@ -1,14 +1,12 @@
 package edu.luc.cs.laufer.cs473.expressions
 
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 import org.scalatest.FunSuite
 
 import ExtendedOperations._
 import TestFixtures._
 
 object MainExtended {
-  def main(args : Array[String]) : Unit = {
+  def main(args: Array[String]): Unit = {
     println("p = " + complex1)
     println("evaluate(p) = " + evaluate(complex1))
     println("size(p) = " + size(complex1))
@@ -22,7 +20,6 @@ object MainExtended {
   }
 }
 
-@RunWith(classOf[JUnitRunner])
 class TestExtended extends FunSuite {
   test("evaluate(p)") { assert(evaluate(complex1) === -1) }
   test("size(p)") { assert(size(complex1) === 9) }
