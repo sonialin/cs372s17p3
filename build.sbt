@@ -1,6 +1,8 @@
 name := "expressions-scala"
 
-version := "0.0.1"
+version := "0.0.2"
+
+scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
 resolvers ++= Seq(
   "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases"

@@ -10,7 +10,7 @@ object MainParser {
     println(parsedExpr.get)
     println(complex1)
     println(parsedExpr.get == complex1)
-    println(SimpleOperations.evaluate(parsedExpr.get))
+    println(Behaviors.evaluate(parsedExpr.get))
   }
 }
 

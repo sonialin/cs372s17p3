@@ -2,7 +2,7 @@ package edu.luc.cs.laufer.cs473.expressions
 
 import org.scalatest.FunSuite
 
-import ExtendedOperations._
+import Behaviors._
 import TestFixtures._
 
 object MainExtended {
