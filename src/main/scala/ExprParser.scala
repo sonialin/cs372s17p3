@@ -1,21 +1,32 @@
 package edu.luc.cs.laufer.cs473.expressions
 
-import scala.util.parsing.combinator._
+import scala.util.parsing.combinator.syntactical.StandardTokenParsers
 
-object ExprParser extends JavaTokenParsers {
-  def expr: Parser[Expr] = (
-    term ~ "+" ~ term ^^ { case l ~ _ ~ r => Plus(l, r) }
-    | term ~ "-" ~ term ^^ { case l ~ _ ~ r => Minus(l, r) }
-    | term
-    | factor
-  )
-  def term: Parser[Expr] = (
-    factor ~ "*" ~ factor ^^ { case l ~ _ ~ r => Times(l, r) }
-    | factor ~ "/" ~ factor ^^ { case l ~ _ ~ r => Div(l, r) }
-    | factor
-  )
+object ExprParser extends StandardTokenParsers {
+
+  lexical.delimiters += ("(", ")", "+", "-", "*", "/")
+
+  def expr: Parser[Expr] =
+    term ~! opt(("+" | "-") ~ expr) ^^ {
+      case l ~ None => l
+      case l ~ Some("+" ~ r) => Plus(l, r)
+      case l ~ Some("-" ~ r) => Minus(l, r)
+    }
+
+  def term: Parser[Expr] =
+    factor ~! opt(("*" | "/") ~ term) ^^ {
+      case l ~ None => l
+      case l ~ Some("*" ~ r) => Times(l, r)
+      case l ~ Some("/" ~ r) => Div(l, r)
+    }
+
   def factor: Parser[Expr] = (
-    wholeNumber ^^ { case s => Constant(s.toInt) }
-    | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
+    numericLit ^^ { case s => Constant(s.toInt) }
+  | "+" ~> factor ^^ { case e => e }
+  | "-" ~> factor ^^ { case e => UMinus(e) }
+  | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
   )
+
+  def parseAll[T](p: Parser[T], in: String): ParseResult[T] =
+    phrase(p)(new lexical.Scanner(in))
 }
