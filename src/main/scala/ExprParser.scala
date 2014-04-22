@@ -4,22 +4,23 @@ import scala.util.parsing.combinator.syntactical.StandardTokenParsers
 
 object ExprParser extends StandardTokenParsers {
 
-  lexical.delimiters += ("(", ")", "+", "-", "*", "/")
+  lexical.delimiters += ("(", ")", "+", "-", "*", "/", "%")
 
   /** expr ::= term { { "+" | "-" } term }* */
   def expr: Parser[Expr] =
-    term ~! opt(("+" | "-") ~ expr) ^^ {
+    term ~! opt(("+" | "-") ~ term) ^^ {
       case l ~ None => l
       case l ~ Some("+" ~ r) => Plus(l, r)
       case l ~ Some("-" ~ r) => Minus(l, r)
     }
 
-  /** term ::= factor { { "*" | "/" } factor }* */
+  /** term ::= factor { { "*" | "/" | "%" } factor }* */
   def term: Parser[Expr] =
-    factor ~! opt(("*" | "/") ~ term) ^^ {
+    factor ~! opt(("*" | "/" | "%") ~ factor) ^^ {
       case l ~ None => l
       case l ~ Some("*" ~ r) => Times(l, r)
       case l ~ Some("/" ~ r) => Div(l, r)
+      case l ~ Some("%" ~ r) => Mod(l, r)
     }
 
   /** factor ::= numericLit | "+" factor | "-" factor | "(" expr ")" */
