@@ -9,7 +9,7 @@ object MainParser extends App {
   println(parsedExpr.get)
   println(complex1)
   println(parsedExpr.get == complex1)
-  println(Behaviors.evaluate(parsedExpr.get))
+  println(behaviors.evaluate(parsedExpr.get))
 }
 
 class TestParser extends FunSuite {

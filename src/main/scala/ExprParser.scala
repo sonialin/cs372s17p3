@@ -1,36 +1,43 @@
 package edu.luc.cs.laufer.cs473.expressions
 
-import scala.util.parsing.combinator.syntactical.StandardTokenParsers
+import org.parboiled2._
+import ast._
 
-object ExprParser extends StandardTokenParsers {
+class ExprParser(val input: ParserInput) extends Parser {
 
-  lexical.delimiters += ("(", ")", "+", "-", "*", "/", "%")
+  def InputLine = rule { zeroOrMore(' ') ~ Expression ~ EOI }
 
   /** expr ::= term { { "+" | "-" } term }* */
-  def expr: Parser[Expr] =
-    term ~! opt(("+" | "-") ~ term) ^^ {
-      case l ~ None => l
-      case l ~ Some("+" ~ r) => Plus(l, r)
-      case l ~ Some("-" ~ r) => Minus(l, r)
-    }
+  def Expression = rule {
+    Term ~ zeroOrMore(
+      '+' ~ Term ~> (Plus(_: Expr, _))
+    | '-' ~ Term ~> (Minus(_: Expr, _))
+    )
+  }
 
   /** term ::= factor { { "*" | "/" | "%" } factor }* */
-  def term: Parser[Expr] =
-    factor ~! opt(("*" | "/" | "%") ~ factor) ^^ {
-      case l ~ None => l
-      case l ~ Some("*" ~ r) => Times(l, r)
-      case l ~ Some("/" ~ r) => Div(l, r)
-      case l ~ Some("%" ~ r) => Mod(l, r)
-    }
+  def Term = rule {
+    Factor ~ zeroOrMore(
+      '*' ~ Factor ~> (Times(_: Expr, _))
+    | '/' ~ Factor ~> (Div(_: Expr, _))
+    | '%' ~ Factor ~> (Mod(_: Expr, _))
+    )
+  }
 
-  /** factor ::= numericLit | "+" factor | "-" factor | "(" expr ")" */
-  def factor: Parser[Expr] = (
-    numericLit ^^ { case s => Constant(s.toInt) }
-  | "+" ~> factor ^^ { case e => e }
-  | "-" ~> factor ^^ { case e => UMinus(e) }
-  | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
-  )
+  /** factor ::= number | "+" factor | "-" factor | "(" expr ")" */
+  def Factor: Rule1[Expr] = rule { Number | UnaryPlus | UnaryMinus | Parens }
 
-  def parseAll[T](p: Parser[T], in: String): ParseResult[T] =
-    phrase(p)(new lexical.Scanner(in))
+  def Number = rule { capture(Digits) ~ zeroOrMore(' ') ~> ((s: String) => Constant(s.toInt)) }
+
+  def UnaryPlus = rule { '+' ~ Factor }
+
+  def UnaryMinus = rule { '-' ~ Factor ~> (UMinus(_: Expr)) }
+
+  def Parens = rule { '(' ~ Expression ~ ')' }
+
+  def Digits = rule { oneOrMore(CharPredicate.Digit) }
+
+  implicit def wspChar(c: Char): Rule0 = rule { ch(c) ~ zeroOrMore(' ') }
+
+  implicit def wspStr(s: String): Rule0 = rule { str(s) ~ zeroOrMore(' ') }
 }

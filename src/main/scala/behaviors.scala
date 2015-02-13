@@ -1,6 +1,8 @@
 package edu.luc.cs.laufer.cs473.expressions
 
-object Behaviors {
+import ast._
+
+object behaviors {
 
   def evaluate(e: Expr): Int = e match {
     case Constant(c) => c
