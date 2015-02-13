@@ -5,7 +5,7 @@ import org.scalatest.FunSuite
 import TestFixtures._
 
 object MainParser extends App {
-  val parsedExpr = ExprParser.parseAll(ExprParser.expr, complex1string)
+  val parsedExpr = new ExprParser(complex1string).InputLine.run()
   println(parsedExpr.get)
   println(complex1)
   println(parsedExpr.get == complex1)
@@ -13,6 +13,6 @@ object MainParser extends App {
 }
 
 class TestParser extends FunSuite {
-  val parsedExpr = ExprParser.parseAll(ExprParser.expr, complex1string)
+  val parsedExpr = new ExprParser(complex1string).InputLine.run()
   test("parser works") { assert(parsedExpr.get === complex1) }
 }
