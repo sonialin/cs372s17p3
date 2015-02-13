@@ -14,5 +14,7 @@ object MainParser extends App {
 
 class TestParser extends FunSuite {
   val parsedExpr = new ExprParser(complex1string).InputLine.run()
-  test("parser works") { assert(parsedExpr.get === complex1) }
+  val parsedExpr2 = new ExprParser(complex1string2).InputLine.run()
+  test("parser works 1") { assert(parsedExpr.get === complex1) }
+  test("parser works 2") { assert(parsedExpr2.get === complex1) }
 }

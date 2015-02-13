@@ -2,6 +2,8 @@ package edu.luc.cs.laufer.cs473.expressions
 
 object TestFixtures {
 
+  import ast._
+
   val complex1 =
     Div(
       Minus(
@@ -18,6 +20,8 @@ object TestFixtures {
     );
 
   val complex1string = "((1 + 2) - (3 * 4)) / 5"
+
+  val complex1string2 = "  ((1 + 2) - (3 * 4)) / 5  "
 
   val complex2 =
     Mod(
