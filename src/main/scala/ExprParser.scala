@@ -5,23 +5,23 @@ import ast._
 
 class ExprParser(val input: ParserInput) extends Parser {
 
-  // explicitly handle leading whitespace
-  def InputLine = rule { zeroOrMore(' ') ~ Expression ~ EOI }
+  // explicitly handle only leading whitespace
+  def InputLine = rule { WhiteSpace ~ Expression ~ EOI }
 
   /** expr ::= term { { "+" | "-" } term }* */
   def Expression = rule {
     Term ~ zeroOrMore(
-      '+' ~ Term ~> (Plus(_: Expr, _))
-    | '-' ~ Term ~> (Minus(_: Expr, _))
+      ws('+') ~ Term ~> (Plus(_: Expr, _))
+    | ws('-') ~ Term ~> (Minus(_: Expr, _))
     )
   }
 
   /** term ::= factor { { "*" | "/" | "%" } factor }* */
   def Term = rule {
     Factor ~ zeroOrMore(
-      '*' ~ Factor ~> (Times(_: Expr, _))
-    | '/' ~ Factor ~> (Div(_: Expr, _))
-    | '%' ~ Factor ~> (Mod(_: Expr, _))
+      ws('*') ~ Factor ~> (Times(_: Expr, _))
+    | ws('/') ~ Factor ~> (Div(_: Expr, _))
+    | ws('%') ~ Factor ~> (Mod(_: Expr, _))
     )
   }
 
@@ -29,19 +29,19 @@ class ExprParser(val input: ParserInput) extends Parser {
   def Factor: Rule1[Expr] = rule { Number | UnaryPlus | UnaryMinus | Parens }
 
   // explicitly handle trailing whitespace
-  def Number = rule { capture(Digits) ~ zeroOrMore(' ') ~> ((s: String) => Constant(s.toInt)) }
+  def Number = rule { capture(Digits) ~ WhiteSpace ~> ((s: String) => Constant(s.toInt)) }
 
-  def UnaryPlus = rule { '+' ~ Factor }
+  def UnaryPlus = rule { ws('+') ~ Factor }
 
-  def UnaryMinus = rule { '-' ~ Factor ~> (UMinus(_: Expr)) }
+  def UnaryMinus = rule { ws('-') ~ Factor ~> (UMinus(_: Expr)) }
 
-  def Parens = rule { '(' ~ Expression ~ ')' }
+  def Parens = rule { ws('(') ~ Expression ~ ws(')') }
 
   def Digits = rule { oneOrMore(CharPredicate.Digit) }
 
-  /** Automatically handles whitespace after single character terminals. */
-  implicit def wspChar(c: Char): Rule0 = rule { ch(c) ~ zeroOrMore(' ') }
+  val WhiteSpaceChar = CharPredicate(" \n\r\t\f")
 
-  /** Automatically handles whitespace after string terminals. */
-  implicit def wspStr(s: String): Rule0 = rule { str(s) ~ zeroOrMore(' ') }
+  def WhiteSpace = rule { zeroOrMore(WhiteSpaceChar) }
+
+  def ws(c: Char) = rule { c ~ WhiteSpace }
 }
