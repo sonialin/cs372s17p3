@@ -5,7 +5,6 @@ import ast._
 
 class ExprParser(val input: ParserInput) extends Parser {
 
-  // explicitly handle only leading whitespace
   def InputLine = rule { WhiteSpace ~ Expression ~ EOI }
 
   /** expr ::= term { { "+" | "-" } term }* */
