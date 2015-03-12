@@ -7,7 +7,7 @@ class ExprParser(val input: ParserInput) extends Parser {
 
   def InputLine = rule { WhiteSpace ~ Expression ~ EOI }
 
-  /** expr ::= term { { "+" | "-" } term }* */
+  /** expression ::= term { { "+" | "-" } term }* */
   def Expression = rule {
     Term ~ zeroOrMore(
       ws('+') ~ Term ~> (Plus(_: Expr, _))
@@ -24,7 +24,7 @@ class ExprParser(val input: ParserInput) extends Parser {
     )
   }
 
-  /** factor ::= number | "+" factor | "-" factor | "(" expr ")" */
+  /** factor ::= number | "+" factor | "-" factor | "(" expression ")" */
   def Factor: Rule1[Expr] = rule { Number | UnaryPlus | UnaryMinus | Parens }
 
   // explicitly handle trailing whitespace
