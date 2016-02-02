@@ -3,7 +3,7 @@ package edu.luc.cs.laufer.cs473.expressions
 import org.parboiled2._
 import ast._
 
-class ExprParser(val input: ParserInput) extends Parser {
+class PegParser(val input: ParserInput) extends Parser {
 
   def InputLine = rule { WhiteSpace ~ Expression ~ EOI }
 

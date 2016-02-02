@@ -3,11 +3,11 @@ package edu.luc.cs.laufer.cs473.expressions
 import org.parboiled2.ParseError
 import scala.util.{Failure, Success}
 
-object Calculator extends App {
+object PegCalculator extends App {
 
   def processExpr(input: String): Unit = {
     println("You entered: " + input)
-    val parser = new ExprParser(input)
+    val parser = new PegParser(input)
     parser.InputLine.run() match {
       case Failure(error: ParseError) =>
         println("This expression could not be parsed:")
