@@ -8,10 +8,10 @@ To run the tests:
 
       sbt test
 
-To run one of the calculator examples:
+To run either of the calculator examples:
 
       sbt run
 
-To run one of the test examples:
+To run either of the test examples:
 
       sbt test:run
