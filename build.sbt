@@ -2,12 +2,12 @@ name := "expressions-scala"
 
 version := "0.2"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 
 libraryDependencies ++= Seq(
-  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
-  "org.parboiled" %% "parboiled" % "2.1.1",
-  "org.scalatest" %% "scalatest" % "2.2.6" % Test
+  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.5",
+  "org.parboiled" %% "parboiled" % "2.1.3",
+  "org.scalatest" %% "scalatest" % "3.0.1" % Test
 )
