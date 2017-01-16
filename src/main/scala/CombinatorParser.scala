@@ -25,8 +25,8 @@ object CombinatorParser extends JavaTokenParsers {
   /** factor ::= numericLit | "+" factor | "-" factor | "(" expr ")" */
   def factor: Parser[Expr] = (
     wholeNumber ^^ { case s => Constant(s.toInt) }
-  | "+" ~> factor ^^ { case e => e }
-  | "-" ~> factor ^^ { case e => UMinus(e) }
-  | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
+    | "+" ~> factor ^^ { case e => e }
+    | "-" ~> factor ^^ { case e => UMinus(e) }
+    | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
   )
 }
