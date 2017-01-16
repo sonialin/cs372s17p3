@@ -9,5 +9,5 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked")
 libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.5",
   "org.parboiled" %% "parboiled" % "2.1.3",
-  "org.scalatest" %% "scalatest" % "3.0.1" % Test
+  "org.scalatest" %% "scalatest" % "2.2.6" % Test
 )
