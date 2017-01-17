@@ -7,8 +7,7 @@ object CombinatorCalculator extends App {
     val result = CombinatorParser.parseAll(CombinatorParser.expr, input)
     if (result.isEmpty) {
       println("This expression could not be parsed")
-    }
-    else {
+    } else {
       import behaviors._
       val expr = result.get
       println("The parsed expression is: ")
@@ -20,8 +19,7 @@ object CombinatorCalculator extends App {
 
   if (args.length > 0) {
     processExpr(args mkString " ")
-  }
-  else {
+  } else {
     print("Enter infix expression: ")
     scala.io.Source.stdin.getLines foreach { line =>
       processExpr(line)
