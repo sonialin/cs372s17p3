@@ -24,14 +24,14 @@ object behaviors {
     case Mod(l, r)   => 1 + size(l) + size(r)
   }
 
-  def depth(e: Expr): Int = e match {
+  def height(e: Expr): Int = e match {
     case Constant(c) => 1
-    case UMinus(r)   => 1 + depth(r)
-    case Plus(l, r)  => 1 + math.max(depth(l), depth(r))
-    case Minus(l, r) => 1 + math.max(depth(l), depth(r))
-    case Times(l, r) => 1 + math.max(depth(l), depth(r))
-    case Div(l, r)   => 1 + math.max(depth(l), depth(r))
-    case Mod(l, r)   => 1 + math.max(depth(l), depth(r))
+    case UMinus(r)   => 1 + height(r)
+    case Plus(l, r)  => 1 + math.max(height(l), height(r))
+    case Minus(l, r) => 1 + math.max(height(l), height(r))
+    case Times(l, r) => 1 + math.max(height(l), height(r))
+    case Div(l, r)   => 1 + math.max(height(l), height(r))
+    case Mod(l, r)   => 1 + math.max(height(l), height(r))
   }
 
   def toFormattedString(prefix: String)(e: Expr): String = e match {
