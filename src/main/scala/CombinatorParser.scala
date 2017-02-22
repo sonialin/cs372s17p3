@@ -22,7 +22,7 @@ object CombinatorParser extends JavaTokenParsers {
       case l ~ Some("%" ~ r) => Mod(l, r)
     }
 
-  /** factor ::= numericLit | "+" factor | "-" factor | "(" expr ")" */
+  /** factor ::= wholeNumber | "+" factor | "-" factor | "(" expr ")" */
   def factor: Parser[Expr] = (
     wholeNumber ^^ { case s => Constant(s.toInt) }
     | "+" ~> factor ^^ { case e => e }
