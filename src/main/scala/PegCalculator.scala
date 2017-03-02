@@ -25,8 +25,7 @@ object PegCalculator extends App {
 
   if (args.length > 0) {
     processExpr(args mkString " ")
-  }
-  else {
+  } else {
     print("Enter infix expression: ")
     scala.io.Source.stdin.getLines foreach { line =>
       processExpr(line)
