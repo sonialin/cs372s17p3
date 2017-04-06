@@ -27,6 +27,7 @@ object CombinatorParser extends JavaTokenParsers {
     wholeNumber ^^ { case s => Constant(s.toInt) }
     | "+" ~> factor ^^ { case e => e }
     | "-" ~> factor ^^ { case e => UMinus(e) }
+    | factor ::= ident ^^ { case e => e }
     | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
   )
 }
