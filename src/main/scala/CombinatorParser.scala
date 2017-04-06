@@ -30,4 +30,24 @@ object CombinatorParser extends JavaTokenParsers {
     | factor ::= ident ^^ { case e => e }
     | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
   )
+
+  def conditional: Parser[Conditional] = (
+    /* to-do */
+  )
+
+  def loop: Parser[While] = (
+    /* to-do */
+  )
+
+  def block: Parser[Sequence] = (
+    /* to-do */
+  )
+
+  def assignment: Parser[Expr] = (
+    /* to-do */
+  )
+
+  def statement: Parser[Expr] = (
+    /* to-do */
+  )
 }
