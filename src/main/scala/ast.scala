@@ -11,3 +11,15 @@ case class Minus(left: Expr, right: Expr) extends BinaryExpr(left, right)
 case class Times(left: Expr, right: Expr) extends BinaryExpr(left, right)
 case class Div(left: Expr, right: Expr) extends BinaryExpr(left, right)
 case class Mod(left: Expr, right: Expr) extends BinaryExpr(left, right)
+
+/* source: https://github.com/lucproglangcourse/misc-scala/blob/master/src/main/scala/imperative/syntax.scala */
+case class Variable(name: String) extends Expr {
+  require(name != null)
+}
+case class Sequence(statements: Expr*) extends Expr {
+  require(statements != null)
+  require(!statements.contains(null))
+}
+case class Conditional(condition: Expr, block1: Expr, block2: Expr) extends Expr
+case class While(guard: Expr, body: Expr) extends Expr(guard, body)
+case class Assignment(left: Expr, right: Expr) extends Expr(left, right)
