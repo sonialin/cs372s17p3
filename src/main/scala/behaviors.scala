@@ -47,6 +47,10 @@ object behaviors {
 
   def toFormattedString(e: Expr): String = toFormattedString("")(e)
 
+//  def prettyPrinting(): String = {
+//    to-do: add cases and corresponding format
+//  }
+
   def buildExprString(prefix: String, nodeString: String, leftString: String, rightString: String) = {
     val result = new StringBuilder(prefix)
     result.append(nodeString)
