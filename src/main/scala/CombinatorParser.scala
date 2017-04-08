@@ -27,8 +27,8 @@ object CombinatorParser extends JavaTokenParsers {
     wholeNumber ^^ { case s => Constant(s.toInt) }
     | "+" ~> factor ^^ { case e => e }
     | "-" ~> factor ^^ { case e => UMinus(e) }
-    | factor ::= ident ^^ { case e => e }
     | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
+    | ident  ^^ {case v => Variable(v)}
   )
 
   def conditional: Parser[Conditional] = (
@@ -43,11 +43,10 @@ object CombinatorParser extends JavaTokenParsers {
     /* to-do */
   )
 
-  def assignment: Parser[Expr] = (
-    /* to-do */
-  )
+  def statement: Parser[Statement] = positioned(variableAssignment) ^^ { a => a }
 
-  def statement: Parser[Expr] = (
-    /* to-do */
-  )
+  def variableAssignment: Parser[VariableDefinition] =
+    "var" ~> ident ~ "=" ~ positioned(expr) ^^ {
+      case a ~ "=" ~ b => { new VariableDefinition(a, b) }
+    }
 }
