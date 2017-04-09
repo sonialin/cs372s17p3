@@ -31,22 +31,10 @@ object CombinatorParser extends JavaTokenParsers {
     | ident  ^^ {case v => Variable(v)}
   )
 
-  def conditional: Parser[Conditional] = (
-    ???
+  def statement: Parser[Expr] = (
+    ident ~ "=" ~ expr ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
+    | "while" ~ "(" ~> expr ~ ")" ~ statement ^^ { case g ~ _ ~ b => While(g, b) }
+    | "{" ~> repsep(statement, ",") <~ "}" ^^ { case ss => Sequence(ss: _*) }
+    | "if" ~ "(" ~> expr ~ ")" ~ statement  ~ "else" ~ statement ^^ { case a ~ _ ~ b ~ _ ~ c => Conditional(a, b, c)}
   )
-
-  def loop: Parser[While] = (
-    ???
-  )
-
-  def block: Parser[Sequence] = (
-    ???
-  )
-
-//  def statement: Parser[Statement] = positioned(variableAssignment) ^^ { a => a }
-//
-//  def variableAssignment: Parser[VariableDefinition] =
-//    "var" ~> ident ~ "=" ~ positioned(expr) ^^ {
-//      case a ~ "=" ~ b => { new VariableDefinition(a, b) }
-//    }
 }

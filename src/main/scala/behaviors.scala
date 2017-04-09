@@ -43,6 +43,10 @@ object behaviors {
     case Div(l, r)   => buildExprString(prefix, "Div", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case Mod(l, r)   => buildExprString(prefix, "Mod", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case Variable(str) => "bleh" //To-do
+    case Assignment(left, right) => "blah"
+    case While(guard, body) => "abc123"
+    case Conditional(condition, block1, block2) => "xyz111"
+    case Sequence(statements) => "aaabbb"
   }
 
   def toFormattedString(e: Expr): String = toFormattedString("")(e)
