@@ -46,7 +46,7 @@ object behaviors {
     case Assignment(left, right) => "blah"
     case While(guard, body) => "abc123"
     case Conditional(condition, block1, block2) => "xyz111"
-    case Sequence(statements) => "aaabbb"
+    case Sequence(_*) => "aaabbb"
   }
 
   def toFormattedString(e: Expr): String = toFormattedString("")(e)
