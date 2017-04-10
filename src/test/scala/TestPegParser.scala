@@ -1,8 +1,10 @@
 package edu.luc.cs.laufer.cs473.expressions
 
 import org.scalatest.FunSuite
-
 import TestFixtures._
+import org.parboiled2.ParseError
+
+import scala.util.Failure
 
 object MainPegParser extends App {
   val parsedExpr = new PegParser(complex1string).InputLine.run()
@@ -19,7 +21,10 @@ class TestPegParser extends FunSuite {
   val parsedExpr4 = new PegParser(assignmentString2).InputLine.run()
   val parsedExpr5 = new PegParser(assignmentString3).InputLine.run()
   val parsedExpr6 = new PegParser(whileString).InputLine.run()
-  val parsedExpr7 = new PegParser(cTest).InputLine.run()
+  val parsedExpr7 = new PegParser(condString).InputLine.run()
+  val parsedExpr8 = new PegParser(badStringcond).InputLine.run()
+  val parsedExpr9 = new PegParser(badStringAssignment).InputLine.run()
+  val parsedExpr10 = new PegParser(badStringWhile).InputLine.run()
 
 
   test("parser works 1") { assert(parsedExpr.get === complex1) }
@@ -28,6 +33,7 @@ class TestPegParser extends FunSuite {
   test("assignment 2") { assert(parsedExpr4.get === assignment2) }
   test("assignment 3") { assert(parsedExpr5.get === assignment3) }
   test("while") { assert(parsedExpr6.get === while1) }
-  test("if") { assert(parsedExpr7.get === condString) }
+  test("if") { assert(parsedExpr7.get === condTest) }
+
 
 }

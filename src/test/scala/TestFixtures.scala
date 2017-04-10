@@ -57,10 +57,18 @@ object TestFixtures {
   val while1 = While(Variable("Y"), Sequence(Assignment(Variable("r"), Plus(Variable("r"), Variable("x"))),
     Assignment(Variable("y"), Plus(Variable("y"), Minus(Variable("y"), Constant(1))))))
 
-  val cTest = "if (4) { r = r + x; y = y + 1; }"
+  val condString = "if (4) { r = r + x; y = y + 1; }"
 
-  val condString = Conditional(Constant(4), Assignment(Variable("r"), Plus(Variable("r"), Variable("x"))),
+  val condTest = Conditional(Constant(4), Assignment(Variable("r"), Plus(Variable("r"), Variable("x"))),
     Assignment(Variable("y"), Plus(Variable("y"), Constant(1))))
+
+  val badStringcond = "if )( { r = r + x; y = y + 1; }"
+
+  val badStringAssignment = "x = ;"
+
+  val badStringWhile = "while <> {pass}"
+
+
 
 
 }
