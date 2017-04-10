@@ -42,17 +42,17 @@ object behaviors {
     case Times(l, r) => buildExprString(prefix, "Times", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case Div(l, r)   => buildExprString(prefix, "Div", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case Mod(l, r)   => buildExprString(prefix, "Mod", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
-    case Variable(str) => "bleh" //To-do
-    case Assignment(left, right) => "blah"
-    case While(guard, body) => "abc123"
+    case Variable(str) => prefix + str.toString
+    case Assignment(left, right) => buildExprString(prefix, "VarAssignment", toFormattedString(prefix + INDENT)(left), toFormattedString(prefix + INDENT)(right))
+    case While(guard, body) => buildExprString(prefix, "WhileLoop", toFormattedString(prefix + INDENT)(guard), toFormattedString(prefix + INDENT)(body))
     case Conditional(condition, block1, block2) => "xyz111"
-    case Sequence(_*) => "aaabbb"
+    case Sequence(statements_*) => "aaabbb"
   }
 
   def toFormattedString(e: Expr): String = toFormattedString("")(e)
 
-//  def prettyPrinting(): String = {
-//    to-do: add cases and corresponding format
+//  def prettyPrinting(prefix: String)(e: Expr): String = e match {
+//
 //  }
 
   def buildExprString(prefix: String, nodeString: String, leftString: String, rightString: String) = {
