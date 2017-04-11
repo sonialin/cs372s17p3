@@ -46,7 +46,7 @@ object behaviors {
     case Assignment(left, right) => buildExprString(prefix, "VarAssignment", toFormattedString(prefix + INDENT)(left), toFormattedString(prefix + INDENT)(right))
     case While(guard, body) => buildExprString(prefix, "WhileLoop", toFormattedString(prefix + INDENT)(guard), toFormattedString(prefix + INDENT)(body))
     case Conditional(condition, block1, block2) => buildTernaryExprString(prefix, "Conditional", toFormattedString(prefix + INDENT)(condition), toFormattedString(prefix + INDENT)(block1), toFormattedString(prefix + INDENT)(block2))
-    case Sequence(statements_*) => "aaabbb"
+    case Sequence(statements_*) => toFormattedString(statements_*)
   }
 
   def toFormattedString(e: Expr): String = toFormattedString("")(e)
@@ -63,7 +63,7 @@ object behaviors {
     case Assignment(left, right) => toFormattedString(left) + " = " + toFormattedString(right) + ";"
     case While(guard, body) => "while (" + toFormattedString(guard) + ") {" + EOL + "  " + toFormattedString(body) + EOL + "}"
     case Conditional(condition, block1, block2) => "if (" + toFormattedString(condition) + ") {" + EOL + "  " + toFormattedString(block1) + EOL + "} else {" + EOL + "  " + toFormattedString(block2) + EOL + "}"
-    case Sequence(statements_*) => "aaabbb"
+    case Sequence(statements_*) => toFormattedString(statements_*)
   }
 
   def buildExprString(prefix: String, nodeString: String, leftString: String, rightString: String) = {
