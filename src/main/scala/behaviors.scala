@@ -52,16 +52,16 @@ object behaviors {
   def toFormattedString(e: Expr): String = toFormattedString("")(e)
 
   def toPrettyPrinting(e: Expr): String = e match {
-    case Constant(c) => "111"
-    case UMinus(r)   => "111"
-    case Plus(l, r)  => "111"
-    case Minus(l, r) => "111"
-    case Times(l, r) => "111"
-    case Div(l, r)   => "111"
-    case Mod(l, r)   => "111"
-    case Variable(str) => "111"
-    case Assignment(left, right) => "111"
-    case While(guard, body) => "111"
+    case Constant(c) => c.toString
+    case UMinus(r)   => "-" + toFormattedString(r)
+    case Plus(l, r)  => toFormattedString(l) + " + " + toFormattedString(r)
+    case Minus(l, r) => toFormattedString(l) + " - " + toFormattedString(r)
+    case Times(l, r) => toFormattedString(l) + " * " + toFormattedString(r)
+    case Div(l, r)   => toFormattedString(l) + " / " + toFormattedString(r)
+    case Mod(l, r)   => toFormattedString(l) + " % " + toFormattedString(r)
+    case Variable(str) => str.toString
+    case Assignment(left, right) => toFormattedString(left) + " = " + toFormattedString(right) + ";"
+    case While(guard, body) => "while (" + toFormattedString(guard) + ") {" + EOL + INDENT + toFormattedString(body) + EOL + "}"
     case Conditional(condition, block1, block2) => "xyz111"
     case Sequence(statements_*) => "aaabbb"
   }
