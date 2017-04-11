@@ -42,9 +42,29 @@ object behaviors {
     case Times(l, r) => buildExprString(prefix, "Times", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case Div(l, r)   => buildExprString(prefix, "Div", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
     case Mod(l, r)   => buildExprString(prefix, "Mod", toFormattedString(prefix + INDENT)(l), toFormattedString(prefix + INDENT)(r))
+    case Variable(str) => prefix + str.toString
+    case Assignment(left, right) => buildExprString(prefix, "VarAssignment", toFormattedString(prefix + INDENT)(left), toFormattedString(prefix + INDENT)(right))
+    case While(guard, body) => buildExprString(prefix, "WhileLoop", toFormattedString(prefix + INDENT)(guard), toFormattedString(prefix + INDENT)(body))
+    case Conditional(condition, block1, block2) => buildTernaryExprString(prefix, "Conditional", toFormattedString(prefix + INDENT)(condition), toFormattedString(prefix + INDENT)(block1), toFormattedString(prefix + INDENT)(block2))
+    case Sequence(statements_*) => toFormattedString(statements_*)
   }
 
   def toFormattedString(e: Expr): String = toFormattedString("")(e)
+
+  def toPrettyPrinting(e: Expr): String = e match {
+    case Constant(c) => c.toString
+    case UMinus(r)   => "-" + toFormattedString(r)
+    case Plus(l, r)  => toFormattedString(l) + " + " + toFormattedString(r)
+    case Minus(l, r) => toFormattedString(l) + " - " + toFormattedString(r)
+    case Times(l, r) => toFormattedString(l) + " * " + toFormattedString(r)
+    case Div(l, r)   => toFormattedString(l) + " / " + toFormattedString(r)
+    case Mod(l, r)   => toFormattedString(l) + " % " + toFormattedString(r)
+    case Variable(str) => str.toString
+    case Assignment(left, right) => toFormattedString(left) + " = " + toFormattedString(right) + ";"
+    case While(guard, body) => "while (" + toFormattedString(guard) + ") {" + EOL + "  " + toFormattedString(body) + EOL + "}"
+    case Conditional(condition, block1, block2) => "if (" + toFormattedString(condition) + ") {" + EOL + "  " + toFormattedString(block1) + EOL + "} else {" + EOL + "  " + toFormattedString(block2) + EOL + "}"
+    case Sequence(statements_*) => toFormattedString(statements_*)
+  }
 
   def buildExprString(prefix: String, nodeString: String, leftString: String, rightString: String) = {
     val result = new StringBuilder(prefix)
@@ -65,6 +85,21 @@ object behaviors {
     result.append("(")
     result.append(EOL)
     result.append(exprString)
+    result.append(")")
+    result.toString
+  }
+
+  def buildTernaryExprString(prefix: String, nodeString: String, leftString: String, midString: String, rightString: String) = {
+    val result = new StringBuilder(prefix)
+    result.append(nodeString)
+    result.append("(")
+    result.append(EOL)
+    result.append(leftString)
+    result.append(", ")
+    result.append(midString)
+    result.append(", ")
+    result.append(EOL)
+    result.append(rightString)
     result.append(")")
     result.toString
   }

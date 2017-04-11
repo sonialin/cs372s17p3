@@ -3,6 +3,10 @@ package edu.luc.cs.laufer.cs473.expressions
 import scala.util.parsing.combinator.JavaTokenParsers
 import ast._
 
+//import jline.Terminal;
+//import jline.TerminalFactory;
+//import jline.console.ConsoleReader;
+
 object CombinatorParser extends JavaTokenParsers {
 
   /** expr ::= term { { "+" | "-" } term }* */
@@ -27,27 +31,15 @@ object CombinatorParser extends JavaTokenParsers {
     wholeNumber ^^ { case s => Constant(s.toInt) }
     | "+" ~> factor ^^ { case e => e }
     | "-" ~> factor ^^ { case e => UMinus(e) }
-    | factor ::= ident ^^ { case e => e }
     | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
-  )
-
-  def conditional: Parser[Conditional] = (
-    ???
-  )
-
-  def loop: Parser[While] = (
-    ???
-  )
-
-  def block: Parser[Sequence] = (
-    ???
-  )
-
-  def assignment: Parser[Expr] = (
-    ???
+    | ident  ^^ {case v => Variable(v)}
   )
 
   def statement: Parser[Expr] = (
-    ???
+    ident ~ "=" ~ expr <~ ";" ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
+    | "while" ~ "(" ~> expr ~ ")" ~ statement ^^ { case g ~ _ ~ b => While(g, b) }
+    | "{" ~> rep(statement) <~ "}" ^^ { case ss => Sequence(ss: _*) }
+    | "if" ~ "(" ~> expr ~ ")" ~ statement  ~ "else" ~ statement ^^ { case a ~ _ ~ b ~ _ ~ c => Conditional(a, b, c)}
   )
+
 }
