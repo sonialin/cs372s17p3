@@ -17,7 +17,7 @@ object CombinatorCalculator extends App {
       val expr = result.get
       println("The parsed expression is: ")
       println(toFormattedString(expr))
-      // To-do: invoke pretty printing method from behaviors
+      println(toPrettyPrinting(expr))
     }
   }
 
