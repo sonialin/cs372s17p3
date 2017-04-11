@@ -16,6 +16,8 @@ object MainCombinatorParser extends App {
 class TestCombinatorParser extends FunSuite {
   val parsedExpr = CombinatorParser.parseAll(CombinatorParser.expr, complex1string)
   val parsedExpr2 = CombinatorParser.parseAll(CombinatorParser.expr, complex1string2)
+
+  // tests for added functionality
   val parsedExpr3 = CombinatorParser.parseAll(CombinatorParser.expr, assignmentString)
   val parsedExpr4 = CombinatorParser.parseAll(CombinatorParser.expr, assignmentString2)
   val parsedExpr5 = CombinatorParser.parseAll(CombinatorParser.expr, assignmentString3)
@@ -30,13 +32,17 @@ class TestCombinatorParser extends FunSuite {
 
   test("parser works 1") { assert(parsedExpr.get === complex1) }
   test("parser works 2") { assert(parsedExpr2.get === complex1) }
+
+
   test("assignment 1") {assert(parsedExpr3.get === assignment1)}
   test("assignment 2") {assert(parsedExpr4.get === assignment2)}
   test("assignment 3") {assert(parsedExpr5.get === assignment3)}
   test("while test") {assert(parsedExpr6.get === while1)}
   test("if statment") {assert(parsedExpr7.get === condTest)}
-  test("fail if") {assert(parsedExpr8.get === Failure)}
-  test("fail assignment") {assert(parsedExpr9.get === Failure)}
-  test("fail while") {assert(parsedExpr10.get === Failure)}
+
+  test("fail if") {assert(parsedExpr8.get === CombinatorParser.Failure("Parse Error", null))}
+  test("fail assignment") {assert(parsedExpr9.get === CombinatorParser.Failure("Parse Error", null))}
+  test("fail while") {assert(parsedExpr10.get === CombinatorParser.Failure("Parse Error", null))}
+
 }
 
