@@ -23,5 +23,5 @@ case class Sequence(statements: Expr*) extends Expr {
   require(!statements.contains(null))
 }
 case class Conditional(condition: Expr, block1: Expr, block2: Expr) extends Expr
-case class While(guard: Expr, body: Expr) extends BinaryExpr(guard, body)
+case class While(guard: Expr, body: Expr) extends Expr
 case class Assignment(left: Expr, right: Expr) extends Expr
