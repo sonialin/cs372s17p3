@@ -1,5 +1,9 @@
 package edu.luc.cs.laufer.cs473.expressions
 
+import jline.Terminal;
+import jline.TerminalFactory;
+import jline.console.ConsoleReader;
+
 object CombinatorCalculator extends App {
 
   def processExpr(input: String): Unit = {
@@ -30,4 +34,6 @@ object CombinatorCalculator extends App {
       print("Enter infix expression: ")
     }
   }
+
+  TerminalFactory.get.restore();
 }
