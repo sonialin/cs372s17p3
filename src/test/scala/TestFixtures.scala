@@ -60,7 +60,7 @@ object TestFixtures {
   val condString = "if (4) { r = r + x; y = y + 1; }"
 
   val condTest = Conditional(Constant(4), Assignment(Variable("r"), Plus(Variable("r"), Variable("x"))),
-    Assignment(Variable("y"), Plus(Variable("y"), Constant(1))))
+    Option(Assignment(Variable("y"), Plus(Variable("y"), Constant(1)))))
 
   val badStringcond = "if )( { r = r + x; y = y + 1; }"
 

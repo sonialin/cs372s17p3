@@ -38,7 +38,7 @@ class TestCombinatorParser extends FunSuite {
   test("assignment 2") {assert(parsedExpr4.get === assignment2)}
   test("assignment 3") {assert(parsedExpr5.get === assignment3)}
   test("while test") {assert(parsedExpr6.get === while1)}
-  test("if statment") {assert(parsedExpr7.get === condTest)}
+  test("if statement") {assert(parsedExpr7.get === condTest)}
 
   test("fail if") {assert(parsedExpr8.get === CombinatorParser.Failure("Parse Error", null))}
   test("fail assignment") {assert(parsedExpr9.get === CombinatorParser.Failure("Parse Error", null))}
