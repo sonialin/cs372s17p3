@@ -8,11 +8,11 @@ object CombinatorCalculator extends App {
 
   def processExpr(input: String): Unit = {
     println("You entered: " + input)
-    var result = CombinatorParser.parseAll(CombinatorParser.statement, input)
+    var result = CombinatorParser.parseAll(CombinatorParser.superStatement, input)
 
-    if (result.isEmpty) {
+    /*if (result.isEmpty) {
       result = CombinatorParser.parseAll(CombinatorParser.expr, input)
-    }
+    }*/
 
     if (result.isEmpty) {
       println("This expression could not be parsed")
@@ -21,7 +21,7 @@ object CombinatorCalculator extends App {
       val expr = result.get
       println("The parsed expression is: ")
       println(toFormattedString(expr))
-      println(toPrettyPrinting(expr))
+      //println(toPrettyPrinting(expr))
     }
   }
 
@@ -35,5 +35,5 @@ object CombinatorCalculator extends App {
     }
   }
 
-  TerminalFactory.get.restore();
+  //TerminalFactory.get.restore();
 }

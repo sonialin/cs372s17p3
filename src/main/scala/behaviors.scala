@@ -45,7 +45,7 @@ object behaviors {
     case Variable(str) => prefix + str.toString
     case Assignment(left, right) => buildExprString(prefix, "VarAssignment", toFormattedString(prefix + INDENT)(left), toFormattedString(prefix + INDENT)(right))
     case While(guard, body) => buildExprString(prefix, "WhileLoop", toFormattedString(prefix + INDENT)(guard), toFormattedString(prefix + INDENT)(body))
-    case Conditional(condition, block1, block2) => buildTernaryExprString(prefix, "Conditional", toFormattedString(prefix + INDENT)(condition), toFormattedString(prefix + INDENT)(block1), toFormattedString(prefix + INDENT)(block2))
+    case Conditional(condition, block1, block2) => buildTernaryExprString(prefix, "Conditional", toFormattedString(prefix + INDENT)(condition), toFormattedString(prefix + INDENT)(block1), toFormattedString(prefix + INDENT)(block2.get))
     case Sequence(statements_*) => toFormattedString(statements_*)
   }
 
@@ -62,7 +62,7 @@ object behaviors {
     case Variable(str) => str.toString
     case Assignment(left, right) => toFormattedString(left) + " = " + toFormattedString(right) + ";"
     case While(guard, body) => "while (" + toFormattedString(guard) + ") {" + EOL + "  " + toFormattedString(body) + EOL + "}"
-    case Conditional(condition, block1, block2) => "if (" + toFormattedString(condition) + ") {" + EOL + "  " + toFormattedString(block1) + EOL + "} else {" + EOL + "  " + toFormattedString(block2) + EOL + "}"
+    case Conditional(condition, block1, block2) => "if (" + toFormattedString(condition) + ") {" + EOL + "  " + toFormattedString(block1) + EOL + "} else {" + EOL + "  " + toFormattedString(block2.get) + EOL + "}"
     case Sequence(statements_*) => toFormattedString(statements_*)
   }
 
