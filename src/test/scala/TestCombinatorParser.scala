@@ -7,10 +7,12 @@ import scala.util.Failure
 
 object MainCombinatorParser extends App {
   val parsedExpr = CombinatorParser.parseAll(CombinatorParser.expr, complex1string)
-  println(parsedExpr.get)
-  println(complex1)
-  println(parsedExpr.get == complex1)
-  println(behaviors.evaluate(parsedExpr.get))
+  //println(parsedExpr.get)
+  //println(complex1)
+  //println(parsedExpr.get == complex1)
+  //println(behaviors.evaluate(parsedExpr.get))
+  val parsedExpr3 = CombinatorParser.parseAll(CombinatorParser.expr, assignmentString)
+  println(parsedExpr3)
 }
 
 class TestCombinatorParser extends FunSuite {
@@ -28,6 +30,8 @@ class TestCombinatorParser extends FunSuite {
   val parsedExpr8 = CombinatorParser.parseAll(CombinatorParser.expr, badStringcond)
   val parsedExpr9 = CombinatorParser.parseAll(CombinatorParser.expr, badStringAssignment)
   val parsedExpr10 = CombinatorParser.parseAll(CombinatorParser.expr, badStringWhile)
+
+
 
 
   test("parser works 1") { assert(parsedExpr.get === complex1) }
