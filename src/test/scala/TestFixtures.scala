@@ -24,7 +24,7 @@ object TestFixtures {
   val complex1string2 = "  ((1 + 2) - (3 * 4)) / 5  "
 
   val complex2 =
-    Mod(
+    Div(
       Minus(
         Plus(
           Constant(1),
@@ -55,14 +55,14 @@ object TestFixtures {
 
   val assignmentString3 = "x = ((1 + 2) - (3 * 4)) / 5;"
 
-  val assignment3 = Assignment(Variable("x"), complex2)
+  val assignment3 = Assignment(Variable("x"), complex1)
 
   val assignment3Eval = Cell(-1)
 
 
 
 
-  val whileString = "while (y) { r = r + x, y = y - 1 }"
+  val whileString = "while (y) {}"
 
   val whileString2 = "r = 0; y = 2; x = 5; while (y) { r = r + x, y = y - 1 }"
 
