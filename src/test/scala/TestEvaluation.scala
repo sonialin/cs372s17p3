@@ -4,7 +4,7 @@ import org.scalatest.FunSuite
 import TestFixtures._
 
 
-object MainEvaluationTest extends App
+/*object MainEvaluationTest extends App
 {
   print(Execute(assignment1))
 
