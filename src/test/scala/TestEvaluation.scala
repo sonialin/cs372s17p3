@@ -5,7 +5,7 @@ import TestFixtures._
 import edu.luc.cs.laufer.cs473.expressions.Execute.Store
 
 
-object MainEvaluationTest extends App
+/*object MainEvaluationTest extends App
 {
   val store: Store = collection.mutable.Map.empty[String, LValue[Int]]
   Execute(store)(assignment1)
