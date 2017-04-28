@@ -13,15 +13,27 @@ object CombinatorCalculator extends App {
     /*if (result.isEmpty) {
       result = CombinatorParser.parseAll(CombinatorParser.expr, input)
     }*/
+       val store = collection.mutable.Map[String, LValue[Int]](
+            "x" -> Cell(5),
+            "i" -> Cell(0),
+            "r" -> Cell(0)
+            )
 
     if (result.isEmpty) {
       println("This expression could not be parsed")
-    } else {
-      import behaviors._
-      val expr = result.get
-      println("The parsed expression is: ")
-      println(toFormattedString(expr))
-      //println(toPrettyPrinting(expr))
+    }
+    else {
+        import behaviors._
+        val expr = result.get
+            println("Memory before input:")
+            println(store)
+            Execute(store)(expr)
+            println("The parsed expression is: ")
+            println(toFormattedString(expr))
+            println(toPrettyPrinting(expr))
+            println("Memory after input:")
+            println(store)
+
     }
   }
 

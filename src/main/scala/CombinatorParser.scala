@@ -5,7 +5,7 @@ import ast._
 
 object CombinatorParser extends JavaTokenParsers {
 
-
+  def superStatement : Parser[Expr] = block | loop | conditional | assignment | expr
   /** expr ::= term { { "+" | "-" } term }* */
   def expr: Parser[Expr] =
     term ~! opt(("+" | "-") ~ term) ^^ {
@@ -54,7 +54,7 @@ object CombinatorParser extends JavaTokenParsers {
     "while" ~ "(" ~> expr ~ ")" ~ block ^^ { case g ~ _ ~ b => While(g, b) }
 
 
-    def statement: Parser[Expr] =
-    (assignment | expr <~ ";" | block | conditional | loop)^^ {a => a}
+    /*def statement: Parser[Expr] =
+    (assignment | expr <~ ";" | block | conditional | loop)^^ {a => a}*/
 
 }
