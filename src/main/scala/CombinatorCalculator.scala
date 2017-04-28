@@ -21,7 +21,7 @@ object CombinatorCalculator extends App {
       val expr = result.get
       println("The parsed expression is: ")
       println(toFormattedString(expr))
-      //println(toPrettyPrinting(expr))
+      println(toPrettyPrinting(expr))
     }
   }
 
