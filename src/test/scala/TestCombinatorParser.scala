@@ -23,7 +23,7 @@ class TestCombinatorParser extends FunSuite {
   val parsedExpr3 = CombinatorParser.parseAll(CombinatorParser.statement, assignmentString)
   val parsedExpr4 = CombinatorParser.parseAll(CombinatorParser.rep(CombinatorParser.statement), assignmentString2)
   val parsedExpr5 = CombinatorParser.parseAll(CombinatorParser.statement, assignmentString3)
-  val parsedExpr6 = CombinatorParser.parseAll(CombinatorParser.statement, whileString)
+  val parsedExpr6 = CombinatorParser.parseAll(CombinatorParser.rep(CombinatorParser.statement), whileString)
   val parsedExpr7 = CombinatorParser.parseAll(CombinatorParser.statement, condString) // test if
 
   //tests that should result in failures
@@ -41,7 +41,7 @@ class TestCombinatorParser extends FunSuite {
   test("assignment 1") {assert(parsedExpr3.get === assignment1)}
   test("assignment 2") {assert(Sequence(parsedExpr4.get: _*) === assignment2)}
   test("assignment 3") {assert(parsedExpr5.get === assignment3)}
-  test("while test")  {assert(parsedExpr6.get === assignment2)}
+  test("while test")  {assert(parsedExpr6.get === while1)}
   test("if statement") {assert(parsedExpr7.get === condTest)}
 
   test("fail if") {assert(parsedExpr8.get === CombinatorParser.Failure("Parse Error", null))}
