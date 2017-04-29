@@ -8,31 +8,31 @@ object CombinatorCalculator extends App {
 
   def processExpr(input: String): Unit = {
     println("You entered: " + input)
-    var result = CombinatorParser.parseAll(CombinatorParser.superStatement, input)
+    var result = CombinatorParser.parseAll(CombinatorParser.statement, input)
 
-    /*if (result.isEmpty) {
+    if (result.isEmpty) {
       result = CombinatorParser.parseAll(CombinatorParser.expr, input)
-    }*/
+    }
        val store = collection.mutable.Map[String, LValue[Int]](
-            "x" -> Cell(5),
-            "i" -> Cell(0),
-            "r" -> Cell(0)
+         "x" -> Cell(2),
+         "y" -> Cell(3),
+         "r" -> Cell(0)
             )
 
     if (result.isEmpty) {
       println("This expression could not be parsed")
     }
     else {
-        import behaviors._
-        val expr = result.get
-            println("Memory before input:")
-            println(store)
-            Execute(store)(expr)
-            println("The parsed expression is: ")
-            println(toFormattedString(expr))
-            println(toPrettyPrinting(expr))
-            println("Memory after input:")
-            println(store)
+      import behaviors._
+      val expr = result.get
+      println("Memory before input:")
+      println(store)
+      //Execute(store)(expr)
+      println("The parsed expression is: ")
+      println(toFormattedString(expr))
+      println(toPrettyPrinting(expr))
+      println("Memory after input:")
+      println(store)
 
     }
   }

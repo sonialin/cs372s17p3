@@ -5,56 +5,46 @@ import ast._
 
 object CombinatorParser extends JavaTokenParsers {
 
-  def superStatement : Parser[Expr] = block | loop | conditional | assignment | expr
-  /** expr ::= term { { "+" | "-" } term }* */
-  def expr: Parser[Expr] =
-    term ~! opt(("+" | "-") ~ term) ^^ {
-      case l ~ None          => l
-      case l ~ Some("+" ~ r) => Plus(l, r)
-      case l ~ Some("-" ~ r) => Minus(l, r)
-    }
+  /** expr ::= term + term | term - term | term */
+  def expr: Parser[Expr] = (
+    term ~ "+" ~ term ^^ { case l ~ _ ~ r => Plus(l, r) }
+      | term ~ "-" ~ term ^^ { case l ~ _ ~ r => Minus(l, r) }
+      | term
+      | factor
+    )
 
-  /** term ::= factor { { "*" | "/" | "%" } factor }* */
-  def term: Parser[Expr] =
-    factor ~! opt(("*" | "/" | "%") ~ factor) ^^ {
-      case l ~ None          => l
-      case l ~ Some("*" ~ r) => Times(l, r)
-      case l ~ Some("/" ~ r) => Div(l, r)
-      case l ~ Some("%" ~ r) => Mod(l, r)
-    }
+  /** term ::= factor * factor | factor / factor | factor */
+  def term: Parser[Expr] = (
+    factor ~ "*" ~ factor ^^ { case l ~ _ ~ r => Times(l, r) }
+      | factor ~ "/" ~ factor ^^ { case l ~ _ ~ r => Div(l, r) }
+      | factor
+    )
 
-  /** factor ::= wholeNumber | "+" factor | "-" factor | "(" expr ")" */
+  /** factor ::= wholeNumber | ident | ( factor ) */
   def factor: Parser[Expr] = (
     wholeNumber ^^ { case s => Constant(s.toInt) }
-    | "+" ~> factor ^^ { case e => e }
-    | "-" ~> factor ^^ { case e => UMinus(e) }
-    | "(" ~ expr ~ ")" ^^ { case _ ~ e ~ _ => e }
-    | ident  ^^ {case v => Variable(v)}
-  )
+      | ident ^^ { case s => Variable(s) }
+      | "(" ~> expr <~ ")" ^^ { case e => e }
+    )
 
   def statement: Parser[Expr] = (
-    ident ~ "=" ~ expr <~ ";" ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
-    | "while" ~ "(" ~> expr ~ ")" ~ statement ^^ { case g ~ _ ~ b => While(g, b) }
-    | "{" ~> rep(statement) <~ "}" ^^ {ss => Sequence(ss: _*) }
-    | "if" ~ "(" ~> expr ~ ")" ~ statement  ~ "else" ~ statement ^^ { case a ~ _ ~ b ~ _ ~ c => Conditional(a, b, Some(c))}
+    (assignment <~ ";" | expr <~ ";" | block | conditional | loop)^^ {a => a}
+    )
+
+  def assignment: Parser[Expr] = (
+    ident ~ "=" ~ expr ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
   )
-  def assignment: Parser[Expr] =
-    ident ~ "=" ~ expr <~ ";" ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
-
-
-  def block: Parser[Expr] =
-    "{" ~> rep(statement) <~ "}" ^^ {ss => Sequence(ss: _*) }
 
   def conditional: Parser[Expr] = (
     "if" ~ "(" ~> expr ~ ")" ~ block ~ "else" ~ block ^^ { case a ~ _ ~ b ~ _ ~ c => Conditional(a, b, Some(c))}
       | "if" ~ "(" ~> expr ~ ")" ~ block ^^ { case a ~ _ ~ b => Conditional(a, b, None)}
   )
 
-  def loop: Parser[Expr] =
+  def loop: Parser[Expr] = (
     "while" ~ "(" ~> expr ~ ")" ~ block ^^ { case g ~ _ ~ b => While(g, b) }
+    )
 
-
-    /*def statement: Parser[Expr] =
-    (assignment | expr <~ ";" | block | conditional | loop)^^ {a => a}*/
-
+  def block: Parser[Expr] = (
+    "{" ~> rep(statement) <~ "}" ^^ { case ss => Sequence(ss: _*) }
+  )
 }
