@@ -47,4 +47,12 @@ object CombinatorParser extends JavaTokenParsers {
   def block: Parser[Expr] = (
     "{" ~> rep(statement) <~ "}" ^^ { case ss => Sequence(ss: _*) }
   )
+
+//  def field: Parser[Expr] = (
+//    ident ~ ":" ~ expr ^^ { case s ~ _ ~ r => Struct(collection.immutable.Map[Variable(s), r])}
+//  )
+
+//  def struct: Parser[Expr] = (
+//    "{" ~ "}" | "{" ~ field { "," field }* ~ "}" => Struct()
+//  )
 }

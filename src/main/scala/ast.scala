@@ -25,3 +25,4 @@ case class Sequence(statements: Expr*) extends Expr {
 case class Conditional(condition: Expr, block1: Expr, block2: Option[Expr]) extends Expr
 case class While(guard: Expr, body: Expr) extends Expr
 case class Assignment(left: Expr, right: Expr) extends Expr
+case class Struct(fields: collection.immutable.Map[Variable, Expr]) extends Expr
