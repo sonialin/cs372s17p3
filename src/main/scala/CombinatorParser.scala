@@ -25,7 +25,8 @@ object CombinatorParser extends JavaTokenParsers {
     wholeNumber ^^ { case s => Constant(s.toInt) }
       | ident ^^ { case s => Variable(s) }
       | "(" ~> expr <~ ")" ^^ { case e => e }
-    )
+      //| ("+" ~ factor  | "-" ~ factor | struct )^^ {a => a}
+  )
 
   def statement: Parser[Expr] = (
     (assignment <~ ";" | expr <~ ";" | block | conditional | loop)^^ {a => a}
@@ -33,6 +34,7 @@ object CombinatorParser extends JavaTokenParsers {
 
   def assignment: Parser[Expr] = (
     ident ~ "=" ~ expr ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
+      //ident ~ { "." ident }* "=" ~ expr ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
   )
 
   def conditional: Parser[Expr] = (
