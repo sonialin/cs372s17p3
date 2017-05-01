@@ -25,7 +25,7 @@ object CombinatorParser extends JavaTokenParsers {
     wholeNumber ^^ { case s => Constant(s.toInt) }
       | ident ^^ { case s => Variable(s) }
       | "(" ~> expr <~ ")" ^^ { case e => e }
-      //| ("+" ~ factor  | "-" ~ factor | struct )^^ {a => a}
+      | ("+" ~ factor  | "-" ~ factor | struct )^^ {a => a}
   )
 
   def statement: Parser[Expr] = (
@@ -34,7 +34,11 @@ object CombinatorParser extends JavaTokenParsers {
 
   def assignment: Parser[Expr] = (
     ident ~ "=" ~ expr ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
-      //ident ~ { "." ident }* "=" ~ expr ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
+    //  | ident ~ select ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
+  )
+
+  def select: Parser[Expr] = (
+    "." ~> expr ^^ {a => a}
   )
 
   def conditional: Parser[Expr] = (
@@ -50,11 +54,11 @@ object CombinatorParser extends JavaTokenParsers {
     "{" ~> rep(statement) <~ "}" ^^ { case ss => Sequence(ss: _*) }
   )
 
-//  def field: Parser[Expr] = (
-//    ident ~ ":" ~ expr ^^ { case s ~ _ ~ r => Struct(collection.immutable.Map[Variable(s), r])}
-//  )
+  def field: Parser[Expr] = (
+    ident ~ ":" ~ expr ^^ { case s ~ _ ~ r => Field(Variable(s), r) }
+  )
 
-//  def struct: Parser[Expr] = (
-//    "{" ~ "}" | "{" ~ field { "," field }* ~ "}" => Struct()
-//  )
+  def struct: Parser[Expr] = (
+    "{" ~> repsep(field, ',') <~ "}" ^^ { case ss => Struct(ss: _*) }
+  )
 }
