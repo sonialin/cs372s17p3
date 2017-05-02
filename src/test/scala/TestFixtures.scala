@@ -80,6 +80,10 @@ object TestFixtures {
 
   val structString2 = "x = {a: 3 + 4};"
 
+  val prettyPrintingString1 = "x = 9;"
+
+  val prettyPrintingInputString1 = "x=9;"
+
   val struct2 = Struct(Field(Variable("a"), Constant(7)))
 
 
