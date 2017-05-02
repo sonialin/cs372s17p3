@@ -27,6 +27,7 @@ case class While(guard: Expr, body: Expr) extends Expr
 case class Assignment(left: Expr, right: Expr) extends Expr
 case class Field(left: Expr, right: Expr) extends Expr
 case class Struct(fields: Expr*) extends Expr
+//case class Struct(fields: collection.mutable.Map[Expr, Expr]*) extends Expr
 case class Select(receiver: Expr, field: Expr) extends Expr {
   require(receiver != null)
   require(field != null)

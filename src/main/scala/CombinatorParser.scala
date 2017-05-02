@@ -35,12 +35,12 @@ object CombinatorParser extends JavaTokenParsers {
 
   def assignment: Parser[Expr] = (
     ident ~ "=" ~ expr ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
-    //  | ident ~ select ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
+      //ident ~ rep(select) ~ "=" ~ expr ^^ { case s ~ _ ~ r => Assignment(Variable(s), r) }
   )
 
-  def select: Parser[Expr] = (
-    "." ~> expr ^^ {a => a}
-  )
+//  def select: Parser[Expr] = (
+//    "." ~ expr => {Select(_)}
+//  )
 
   def conditional: Parser[Expr] = (
     "if" ~ "(" ~> expr ~ ")" ~ block ~ "else" ~ block ^^ { case a ~ _ ~ b ~ _ ~ c => Conditional(a, b, Some(c))}
