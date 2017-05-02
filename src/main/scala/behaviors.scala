@@ -55,19 +55,19 @@ object behaviors {
 
   def toPrettyPrinting(e: Expr): String = e match {
     case Constant(c) => c.toString
-    case UMinus(r)   => "-" + toFormattedString(r)
-    case Plus(l, r)  => toFormattedString(l) + " + " + toFormattedString(r)
-    case Minus(l, r) => toFormattedString(l) + " - " + toFormattedString(r)
-    case Times(l, r) => toFormattedString(l) + " * " + toFormattedString(r)
-    case Div(l, r)   => toFormattedString(l) + " / " + toFormattedString(r)
-    case Mod(l, r)   => toFormattedString(l) + " % " + toFormattedString(r)
+    case UMinus(r)   => "-" + toPrettyPrinting(r)
+    case Plus(l, r)  => toPrettyPrinting(l) + " + " + toPrettyPrinting(r)
+    case Minus(l, r) => toPrettyPrinting(l) + " - " + toPrettyPrinting(r)
+    case Times(l, r) => toPrettyPrinting(l) + " * " + toPrettyPrinting(r)
+    case Div(l, r)   => toPrettyPrinting(l) + " / " + toPrettyPrinting(r)
+    case Mod(l, r)   => toPrettyPrinting(l) + " % " + toPrettyPrinting(r)
     case Variable(str) => str.toString
-    case Assignment(left, right) => toFormattedString(left) + " = " + toFormattedString(right) + ";"
-    case While(guard, body) => "while (" + toFormattedString(guard) + ") {" + EOL + "  " + toFormattedString(body) + EOL + "}"
-    case Conditional(condition, block1, block2) => "if (" + toFormattedString(condition) + ") {" + EOL + "  " + toFormattedString(block1) + EOL + "} else {" + EOL + "  " + toFormattedString(block2.get) + EOL + "}"
-    case Sequence(statements_*) => toFormattedString(statements_*)
-    case Field(left, right) => "123"
-    case Struct(fields_*) => "456"
+    case Assignment(left, right) => toPrettyPrinting(left) + " = " + toPrettyPrinting(right) + ";"
+    case While(guard, body) => "while (" + toPrettyPrinting(guard) + ") {" + EOL + "  " + toPrettyPrinting(body) + EOL + "}"
+    case Conditional(condition, block1, block2) => "if (" + toPrettyPrinting(condition) + ") {" + EOL + "  " + toPrettyPrinting(block1) + EOL + "} else {" + EOL + "  " + toPrettyPrinting( block2.get) + EOL + "}"
+    case Sequence(statements_*) => toPrettyPrinting(statements_*)
+    case Field(left, right) => "Field (" + toPrettyPrinting(left) +  ":" + toPrettyPrinting(right)
+    case Struct(fields_*) => "Struct (" + fields_*
   }
 
   def buildExprString(prefix: String, nodeString: String, leftString: String, rightString: String) = {
