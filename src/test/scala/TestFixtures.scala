@@ -74,6 +74,14 @@ object TestFixtures {
   val condTest = Conditional(Constant(4), Assignment(Variable("r"), Plus(Variable("r"), Variable("x"))),
     Option(Assignment(Variable("y"), Plus(Variable("y"), Constant(1)))))
 
+  val structString1 = "x =  {a : 1, b : 7};"
+
+  val struct1 = Struct(Field(Variable("a"), Constant(1)), Field(Variable("b"), Constant(7)))
+
+  val structString2 = "x = {a: 3 + 4};"
+
+  val struct2 = Struct(Field(Variable("a"), Constant(7)))
+
 
   val badStringcond = "if )( { r = r + x; y = y + 1; }"
 

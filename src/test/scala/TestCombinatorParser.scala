@@ -31,6 +31,9 @@ class TestCombinatorParser extends FunSuite {
   val parsedExpr9 = CombinatorParser.parseAll(CombinatorParser.statement, badStringAssignment)
   val parsedExpr10 = CombinatorParser.parseAll(CombinatorParser.statement, badStringWhile)
 
+  val parsedExpr11 = CombinatorParser.parseAll(CombinatorParser.statement, structString1)
+  val parsedExpr12 = CombinatorParser.parseAll(CombinatorParser.statement, structString2)
+
 
 
 
@@ -43,10 +46,14 @@ class TestCombinatorParser extends FunSuite {
   test("assignment 3") {assert(parsedExpr5.get === assignment3)}
   test("while test")  {assert(parsedExpr6.get === while1)}
   test("if statement") {assert(parsedExpr7.get === condTest)}
+  test("struct test one"){assert(parsedExpr11 === struct1)}
+  test("struct test two"){assert(parsedExpr12 === struct2)}
 
   test("fail if") {assert(parsedExpr8.get === CombinatorParser.Failure("Parse Error", null))}
   test("fail assignment") {assert(parsedExpr9.get === CombinatorParser.Failure("Parse Error", null))}
   test("fail while") {assert(parsedExpr10.get === CombinatorParser.Failure("Parse Error", null))}
+
+
 
 }
 
