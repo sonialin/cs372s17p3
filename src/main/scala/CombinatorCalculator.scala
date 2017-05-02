@@ -30,6 +30,7 @@ object CombinatorCalculator extends App {
       //Execute(store)(expr)
       println("The parsed expression is: ")
       println(toFormattedString(expr))
+      println("The pretty expression is: ")
       println(toPrettyPrinting(expr))
       println("Memory after input:")
       println(store)
