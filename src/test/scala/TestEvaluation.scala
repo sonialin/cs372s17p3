@@ -28,4 +28,6 @@ object MainEvaluationTest extends App
   assert(storeCond ==  Map("r" -> Cell(5), "x" -> Cell(5), "y" -> Cell(3)))
 
 
+
+
 }

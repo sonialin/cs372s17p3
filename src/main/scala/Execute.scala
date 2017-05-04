@@ -27,17 +27,18 @@ object Cell {
 object Execute {
 
   type Store = collection.mutable.Map[String, LValue[Int]]
+  //type result = Try[Cell]
 
   def apply(store: Store)(s: Expr): LValue[Int] = s match {
-    case Constant(value)    => Cell(value)
+    case Constant(value)    => Cell(value) // result(value)
     case Plus(left, right)  => Cell(apply(store)(left).get + apply(store)(right).get)
     case Minus(left, right) => Cell(apply(store)(left).get - apply(store)(right).get)
     case Times(left, right) => Cell(apply(store)(left).get * apply(store)(right).get)
     case Div(left, right)   => Cell(apply(store)(left).get / apply(store)(right).get)
-    case Variable(name)     => store(name)
+    case Variable(name)     => store(name) //result(store(name))
     case Assignment(left, right) => {
-      val rvalue = apply(store)(right)
-      val lvalue = apply(store)(left)
+      val rvalue = apply(store)(right) //result(store)
+      val lvalue = apply(store)(left) //result(store)
       lvalue.set(rvalue.get)
       //store.getOrElseUpdate(lvalue.get, rvalue.get)
     }
@@ -50,6 +51,7 @@ object Execute {
         gvalue = apply(store)(guard)
       }
       Cell.NULL
+      // type Failure = Cell[Null]
     }
   }
 }
