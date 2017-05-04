@@ -42,12 +42,13 @@ object Execute {
       lvalue.set(rvalue.get)
       //store.getOrElseUpdate(lvalue.get, rvalue.get)
     }
-    case Conditional(condition, block1, block2){
-      if (condition.get != 0) {
+    case Conditional(condition, block1, block2) => {
+      var cvalue = apply(store)(condition)
+      if (cvalue.get != 0) {
         apply(store)(block1)
       }
       else {
-        apply(store)(block2)
+        apply(store)(block2.get)
       }
     }
     case Sequence(statements @ _*) =>
