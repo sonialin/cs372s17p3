@@ -42,6 +42,14 @@ object Execute {
       lvalue.set(rvalue.get)
       //store.getOrElseUpdate(lvalue.get, rvalue.get)
     }
+    case Conditional(condition, block1, block2){
+      if (condition.get != 0) {
+        apply(store)(block1)
+      }
+      else {
+        apply(store)(block2)
+      }
+    }
     case Sequence(statements @ _*) =>
       statements.foldLeft(Cell.NULL.asInstanceOf[LValue[Int]])((c, s) => apply(store)(s))
     case While(guard, body) => {
