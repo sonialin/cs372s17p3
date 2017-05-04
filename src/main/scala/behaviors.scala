@@ -53,7 +53,7 @@ object behaviors {
     //buildTernaryExprString(prefix, "Conditional", toFormattedString(prefix + INDENT)(condition), toFormattedString(prefix + INDENT)(block1), toFormattedString(prefix + INDENT)(block2.get))
     case Sequence(statements_*) => toFormattedString(statements_*)
     case Field(left, right) => buildExprString(prefix, "Field", toFormattedString(prefix + INDENT)(left), toFormattedString(prefix + INDENT)(right))
-    case Struct(fields_*) => "456"
+    case Struct(fields_*) => toFormattedString(fields_*)
   }
 
   def toFormattedString(e: Expr): String = toFormattedString("")(e)
