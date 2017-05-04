@@ -39,6 +39,7 @@ object Execute {
       val rvalue = apply(store)(right)
       val lvalue = apply(store)(left)
       lvalue.set(rvalue.get)
+      //store.getOrElseUpdate(lvalue.get, rvalue.get)
     }
     case Sequence(statements @ _*) =>
       statements.foldLeft(Cell.NULL.asInstanceOf[LValue[Int]])((c, s) => apply(store)(s))

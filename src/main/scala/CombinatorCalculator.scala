@@ -27,7 +27,7 @@ object CombinatorCalculator extends App {
       val expr = result.get
       println("Memory before input:")
       println(store)
-      //Execute(store)(expr)
+      Execute(store)(expr)
       println("The parsed expression is: ")
       println(toFormattedString(expr))
       println(toPrettyPrinting(expr))
